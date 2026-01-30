@@ -1,142 +1,84 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 
-# --------------------------------------------------
-# PAGE CONFIG
-# --------------------------------------------------
-st.set_page_config(
-    page_title="Corporate Expense Fraud Analytics",
-    layout="wide"
-)
+st.set_page_config(page_title="Employee Burnout Analytics", layout="wide")
 
-st.title("💼 Corporate Expense Fraud Analytics")
-st.write("EDA + Explainable Machine Learning (Audit-Correct Logic)")
+st.title("🧠 Employee Workload & Burnout Risk Analytics")
 
-# --------------------------------------------------
-# FILE UPLOAD
-# --------------------------------------------------
-uploaded_file = st.file_uploader(
-    "Upload Expense CSV File",
-    type=["csv"]
-)
+# Upload file
+file = st.file_uploader("Upload Employee Burnout CSV", type=["csv"])
 
-if uploaded_file is None:
-    st.info("👆 Upload the dataset to begin.")
+if file is None:
+    st.info("Upload the CSV file to begin analysis.")
     st.stop()
 
-# --------------------------------------------------
-# LOAD DATA
-# --------------------------------------------------
-df = pd.read_csv(uploaded_file)
+df = pd.read_csv(file)
 
-# --------------------------------------------------
-# DATA CLEANING
-# --------------------------------------------------
-df.replace(["?", "NA"], np.nan, inplace=True)
-
-# Clean amount
-df["amount"] = df["amount"].astype(str).str.replace("₹", "")
-df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
-
-# Clean date
-df["claim_date"] = pd.to_datetime(df["claim_date"], errors="coerce")
-
-# Logical defaults
-df["receipt_attached"].fillna("No", inplace=True)
-df["audit_flag"].fillna("Clear", inplace=True)
-df["violation_type"].fillna("None", inplace=True)
-
-# --------------------------------------------------
-# 🚨 FORCE REMOVE ANY OLD DERIVED COLUMNS
-# --------------------------------------------------
-for col in ["over_limit", "missing_receipt"]:
-    if col in df.columns:
-        df.drop(columns=[col], inplace=True)
-
-# --------------------------------------------------
-# ✅ CORRECT FEATURE ENGINEERING (AUTHORITATIVE)
-# --------------------------------------------------
-df["over_limit"] = df["violation_type"].eq("Over Limit")
-df["missing_receipt"] = df["violation_type"].eq("No Receipt")
-
-# --------------------------------------------------
+# -------------------------------
 # DATA PREVIEW
-# --------------------------------------------------
-st.subheader("📄 Cleaned Data Preview")
+# -------------------------------
+st.subheader("📄 Data Preview")
 st.dataframe(df.head(20), use_container_width=True)
 
-# --------------------------------------------------
-# VALIDATION CHECK (VERY IMPORTANT)
-# --------------------------------------------------
-st.subheader("✅ Logic Validation Check")
-validation = df.groupby("violation_type")[["over_limit", "missing_receipt"]].mean()
-st.dataframe(validation, use_container_width=True)
-
-# --------------------------------------------------
-# EDA SECTION
-# --------------------------------------------------
+# -------------------------------
+# EDA
+# -------------------------------
 st.subheader("📊 Exploratory Data Analysis")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.write("Expense Type Distribution")
+    st.write("Burnout Distribution")
     fig, ax = plt.subplots()
-    df["expense_type"].value_counts().plot(kind="bar", ax=ax)
-    plt.xticks(rotation=45)
+    df["burnout_flag"].value_counts().plot(kind="bar", ax=ax)
     st.pyplot(fig)
 
 with col2:
-    st.write("Audit Flag Distribution")
+    st.write("Stress Level Distribution")
     fig, ax = plt.subplots()
-    df["audit_flag"].value_counts().plot(kind="bar", ax=ax)
+    df["self_reported_stress"].value_counts().plot(kind="bar", ax=ax)
     st.pyplot(fig)
 
-# Over-limit rate
-st.subheader("📈 Over-Limit Rate by Expense Type")
-over_rate = df.groupby("expense_type")["over_limit"].mean()
+st.write("### Average Weekly Hours by Burnout Status")
+st.dataframe(df.groupby("burnout_flag")["weekly_hours"].mean())
+
+st.write("### Burnout Rate by Department")
+burnout_rate = df.groupby("department")["burnout_flag"].apply(
+    lambda x: (x == "Yes").mean()
+)
 
 fig, ax = plt.subplots()
-over_rate.plot(kind="bar", ax=ax)
-ax.set_ylabel("Over-Limit Rate")
+burnout_rate.plot(kind="bar", ax=ax)
 plt.xticks(rotation=45)
 st.pyplot(fig)
 
-# Missing receipt vs audit
-st.subheader("📉 Missing Receipt vs Audit Outcome")
-receipt_ct = pd.crosstab(df["missing_receipt"], df["audit_flag"], normalize="index")
-
-fig, ax = plt.subplots()
-receipt_ct.plot(kind="bar", stacked=True, ax=ax)
-ax.set_ylabel("Proportion")
-st.pyplot(fig)
-
-# --------------------------------------------------
+# -------------------------------
 # MACHINE LEARNING
-# --------------------------------------------------
-st.subheader("🤖 Machine Learning – Fraud Prediction")
+# -------------------------------
+st.subheader("🤖 Machine Learning – Burnout Prediction")
 
-ml_df = df.dropna(subset=["amount", "audit_flag"])
-
-ml_df["audit_flag"] = ml_df["audit_flag"].map({
-    "Clear": 0,
-    "Suspect": 1
-})
+ml_df = df.copy()
+ml_df["burnout_flag"] = ml_df["burnout_flag"].map({"No": 0, "Yes": 1})
+ml_df["weekend_work"] = ml_df["weekend_work"].map({"No": 0, "Yes": 1})
+ml_df["self_reported_stress"] = ml_df["self_reported_stress"].map(
+    {"Low": 0, "Medium": 1, "High": 2}
+)
 
 features = [
-    "amount",
-    "policy_limit",
-    "over_limit",
-    "missing_receipt"
+    "weekly_hours",
+    "overtime_hours",
+    "meetings_per_week",
+    "weekend_work",
+    "sick_leaves",
+    "self_reported_stress"
 ]
 
 X = ml_df[features]
-y = ml_df["audit_flag"]
+y = ml_df["burnout_flag"]
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
@@ -147,43 +89,26 @@ model.fit(X_train, y_train)
 
 y_pred = model.predict(X_test)
 
-# --------------------------------------------------
-# MODEL EVALUATION
-# --------------------------------------------------
 st.write("### 📋 Model Evaluation")
 st.text(classification_report(y_test, y_pred))
 
-# Feature importance
-st.write("### 🔍 Feature Importance")
-importance = pd.Series(model.coef_[0], index=features)
-
-fig, ax = plt.subplots()
-importance.sort_values().plot(kind="barh", ax=ax)
-st.pyplot(fig)
-
-# --------------------------------------------------
+# -------------------------------
 # PREDICTION PREVIEW
-# --------------------------------------------------
-st.subheader("🔎 Sample Predictions")
+# -------------------------------
+st.subheader("🔍 Sample Predictions")
 
 ml_df["prediction"] = model.predict(X)
-ml_df["prediction_label"] = ml_df["prediction"].map({
-    0: "Clear",
-    1: "Suspect"
-})
+ml_df["prediction_label"] = ml_df["prediction"].map({0: "No Burnout", 1: "Burnout"})
 
 st.dataframe(
     ml_df[
         [
             "emp_id",
-            "expense_type",
-            "amount",
-            "policy_limit",
-            "violation_type",
-            "over_limit",
-            "missing_receipt",
+            "weekly_hours",
+            "overtime_hours",
+            "self_reported_stress",
             "prediction_label"
         ]
-    ].head(25),
+    ].head(20),
     use_container_width=True
 )
