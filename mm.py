@@ -117,46 +117,44 @@ if upload_file is not None:
 
     
     selected_features = st.multiselect("Select Features (Input)",features,default=features)
-    target = st.selectbox("Select Target (What to predict)", df.columns, index=len(df.columns)-1)
+    target = st.selectbox("Select Target (What to predict)",["addiction_risk_enc", "detox_needed_enc"])
 
     if st.button("Train & Predict"):
         x=df[selected_features]
         y=df[target]
 
-        x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3,random_states=1)
+        x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3,random_state=1)
         
         ss=StandardScaler()
-        x_train=ss.fit_transform(x_train)
-        x_test=ss.transform(x_test)
+        x_trainss=ss.fit_transform(x_train)
+        x_testss=ss.transform(x_test)
 
         lr=LogisticRegression()
-        lr.fit(x_train,y_train)
+        lr.fit(x_trainss,y_train)
 
-        acc = model.score(x_test, y_test)
+        acc = lr.score(x_testss, y_test)
         st.success(f"Model Accuracy: {acc:.2%}")
         
-        y_pred=lr.predict(x_test)
-        print(classification_report(y_test,y_pred))
+        y_pred=lr.predict(x_testss)
+        st.text(classification_report(y_test,y_pred))
 
 
 
         rf = RandomForestClassifier( n_estimators=200, random_state=2) 
         rf.fit(x_train, y_train)
 
-        acc = model.score(x_test, y_test)
+        acc = rf.score(x_test, y_test)
         st.success(f"Model Accuracy: {acc:.2%}")
 
         
         y_pred_rf = rf.predict(x_test)
-        print(classification_report(y_test,y_pred_rf))
+        st.text(classification_report(y_test,y_pred_rf))
 
         from sklearn.model_selection import cross_val_score
         scores = cross_val_score(rf, x, y, cv=5, scoring="f1_macro")
-        scores, scores.mean()
+        st.write("Cross-Validation F1 Scores:", scores)
+        st.write("Mean CV F1 Score:", scores.mean())
     
-
-
-
 else:
     st.info("Please upload a CSV file")
 
