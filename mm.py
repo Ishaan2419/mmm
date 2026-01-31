@@ -67,7 +67,7 @@ if upload_file is not None:
     st.subheader("Average Screen Time by Age Group")
    
     avg_screen_time = df.groupby("age_group")["daily_screen_time"].mean()
-    avg_screen_time.plot(kind="bar",ax2=ax2,color="#4C72B0")
+    avg_screen_time.plot(kind="bar",ax2=ax2[1],color="#4C72B0")
     ax2[1].set_ylabel("Average Screen Time (Hours)")
     ax2[1].set_xlabel("Age Group")
     ax2[1].set_title("Average Screen Time by Age Group")
