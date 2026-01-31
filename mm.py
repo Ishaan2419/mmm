@@ -93,7 +93,7 @@ if upload_file is not None:
     
     for col in num_cols:
         fig, ax = plt.subplots(figsize=(6, 3))
-        sns.kdeplot(data=df,x=col,fill=True,ax=ax)
+        sns.kdeplot(data=df,x=col,fill=True,color="#FF8C00",ax=ax)
         ax.set_title(f"Distribution of {col}")
         ax.set_xlabel(col)
         ax.set_ylabel("Density")
