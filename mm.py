@@ -80,7 +80,7 @@ if upload_file is not None:
     ax3.plot(
     avg_sleep["night_usage_bin"].astype(str),
     avg_sleep["sleep_hours"],
-    marker="o"
+    marker="o",color="#FF8C00"
     )
     ax3.set_title("Night Usage vs Sleep Hours")
     ax3.set_xlabel("Night Usage Minutes")
