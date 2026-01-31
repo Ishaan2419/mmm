@@ -85,7 +85,7 @@ if upload_file is not None:
     ax3.set_title("Night Usage vs Sleep Hours")
     ax3.set_xlabel("Night Usage Minutes")
     ax3.set_ylabel("Average Sleep Hours")
-    st.pyplot(fig2)
+    st.pyplot(fig3)
 
 
     st.subheader("Distribution of Numerical Features (KDE)")
