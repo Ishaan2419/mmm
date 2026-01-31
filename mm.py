@@ -12,16 +12,16 @@ from sklearn.ensemble import RandomForestClassifier
 import warnings
 warnings.filterwarnings("ignore")
 
-st.title("📊 Digital Well-Being & App Addiction Analytics")
+st.subheader("Digital Well-Being & App Addiction Analytics")
 st.write("Upload the Dataset to perform EDA and Machine Learning")
 
-st.sidebar.header("📂 Upload Dataset")
+st.sidebar.header("Upload Dataset")
 upload_file = st.sidebar.file_uploader("Upload The CSV File", type="csv")
 
 if upload_file is not None:
     df = pd.read_csv(upload_file)
 
-    st.subheader("📄 Dataset Preview")
+    st.subheader("Dataset Preview")
     st.write("File uploaded successfully")
 
     df.replace(["?", "NA"], np.nan, inplace=True)
@@ -38,14 +38,14 @@ if upload_file is not None:
     df.loc[df["age_group"].isna() & (df["age"].between(20, 29)), "age_group"] = "Young Adult"
     df.loc[df["age_group"].isna() & (df["age"] >= 30), "age_group"] = "Adult"
 
-    st.subheader("🧹 Missing Values Summary")
+    st.subheader("Missing Values Summary")
     st.write(df.isna().sum())
 
     rows = st.slider("Select number of rows to display", 5, 50, 5)
-    st.subheader("🧼 Cleaned Data Preview")
+    st.subheader("Cleaned Data Preview")
     st.dataframe(df.head(rows))
 
-    st.subheader("📊 Exploratory Data Analysis (EDA)")
+    st.subheader("Exploratory Data Analysis (EDA)")
 
     fig, ax = plt.subplots(1, 2, figsize=(14, 5))
     sns.countplot(data=df, x="age_group", hue="addiction_risk", palette="inferno", ax=ax[0])
@@ -87,7 +87,7 @@ if upload_file is not None:
     ax3.set_ylabel("Average Sleep Hours")
     st.pyplot(fig3)
 
-    st.subheader("📈 Distribution of Numerical Features")
+    st.subheader("Distribution of Numerical Features")
 
     num_cols = ["daily_screen_time", "night_usage_minutes",
                 "notifications_count", "phone_pickups",
@@ -111,7 +111,7 @@ if upload_file is not None:
     ax.set_title("Correlation Heatmap of Numerical Features")
     st.pyplot(fig)
 
-    st.subheader("🔤 Encoding Categorical Variables")
+    st.subheader("Encoding Categorical Variables")
 
     df["addiction_risk_enc"] = df["addiction_risk"].map({"Low": 0, "Medium": 1, "High": 2})
     df["detox_needed_enc"] = df["detox_needed"].map({"No": 0, "Yes": 1})
@@ -131,7 +131,7 @@ if upload_file is not None:
         ["addiction_risk_enc", "detox_needed_enc"]
     )
 
-    if st.button("🚀 Train & Evaluate Models"):
+    if st.button("Train & Evaluate Models"):
         x = df[selected_features]
         y = df[target]
 
@@ -161,7 +161,7 @@ if upload_file is not None:
         from sklearn.model_selection import cross_val_score
         scores = cross_val_score(rf, x, y, cv=5, scoring="f1_macro")
 
-        st.subheader("🔁 Cross-Validation Performance")
+        st.subheader("Cross-Validation Performance")
         st.write("F1 Scores (5-Fold):", scores)
         st.write("Mean F1 Score:", scores.mean())
 
