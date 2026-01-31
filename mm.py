@@ -64,29 +64,29 @@ if upload_file is not None:
     dc=df["detox_needed"].value_counts()
     ax2[0].pie(dc,labels=dc.index,autopct="%1.1f%%",startangle=90,colors=["red","orange"])
     ax2[0].set_title("Distribution of Users by Detox Requirement")
+    st.subheader("Average Screen Time by Age Group")
+   
+    avg_screen_time = df.groupby("age_group")["daily_screen_time"].mean()
+    avg_screen_time.plot(kind="bar",ax=ax2,color="#4C72B0")
+    ax2[1].set_ylabel("Average Screen Time (Hours)")
+    ax2[1].set_xlabel("Age Group")
+    ax2[1].set_title("Average Screen Time by Age Group")
+    st.pyplot(fig2)
 
     df["night_usage_bin"]=pd.cut(df['night_usage_minutes'],bins=range(0,241,30))
     avg_sleep=(df.groupby("night_usage_bin")["sleep_hours"].mean().reset_index())
     avg_sleep = avg_sleep.sort_values("night_usage_bin")
-    ax2[1].plot(
+    fig3, ax3 = plt.subplots(figsize=(7, 5))
+    ax3.plot(
     avg_sleep["night_usage_bin"].astype(str),
     avg_sleep["sleep_hours"],
     marker="o"
     )
-    ax2[1].set_title("Night Usage vs Sleep Hours")
-    ax2[1].set_xlabel("Night Usage Minutes")
-    ax2[1].set_ylabel("Average Sleep Hours")
+    ax3.set_title("Night Usage vs Sleep Hours")
+    ax3.set_xlabel("Night Usage Minutes")
+    ax3.set_ylabel("Average Sleep Hours")
     st.pyplot(fig2)
 
-
-    st.subheader("Average Screen Time by Age Group")
-    fig3, ax3 = plt.subplots(figsize=(7, 5))
-    avg_screen_time = df.groupby("age_group")["daily_screen_time"].mean()
-    avg_screen_time.plot(kind="bar",ax=ax3,color="#4C72B0")
-    ax3.set_ylabel("Average Screen Time (Hours)")
-    ax3.set_xlabel("Age Group")
-    ax3.set_title("Average Screen Time by Age Group")
-    st.pyplot(fig3)
 
     st.subheader("Distribution of Numerical Features (KDE)")
     num_cols = ["daily_screen_time","night_usage_minutes","notifications_count","phone_pickups","sleep_hours","dependency_score"]
