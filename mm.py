@@ -118,6 +118,41 @@ if upload_file is not None:
     
     selected_features = st.multiselect("Select Features (Input)",features,default=features)
     target = st.selectbox("Select Target (What to predict)", df.columns, index=len(df.columns)-1)
+
+    if st.button("Train & Predict"):
+        x=df[selected_features]
+        y=df[target]
+
+        x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3,random_states=1)
+        
+        ss=StandardScaler()
+        x_train=ss.fit_transform(x_train)
+        x_test=ss.transform(x_test)
+
+        lr=LogisticRegression()
+        lr.fit(x_train,y_train)
+
+        acc = model.score(x_test, y_test)
+        st.success(f"Model Accuracy: {acc:.2%}")
+        
+        y_pred=lr.predict(x_test)
+        print(classification_report(y_test,y_pred))
+
+
+
+        rf = RandomForestClassifier( n_estimators=200, random_state=2) 
+        rf.fit(x_train, y_train)
+
+        acc = model.score(x_test, y_test)
+        st.success(f"Model Accuracy: {acc:.2%}")
+
+        
+        y_pred_rf = rf.predict(x_test)
+        print(classification_report(y_test,y_pred_rf))
+
+        from sklearn.model_selection import cross_val_score
+        scores = cross_val_score(rf, x, y, cv=5, scoring="f1_macro")
+        scores, scores.mean()
     
 
 
