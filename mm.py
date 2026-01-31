@@ -115,7 +115,8 @@ if upload_file is not None:
     st.write(df[["addiction_risk", "addiction_risk_enc","detox_needed", "detox_needed_enc"]].head())
     features = ["age","daily_screen_time","night_usage_minutes","notifications_count","phone_pickups","sleep_hours","dependency_score"]
 
-    features = st.multiselect("Select Features (Input)", features, default=df.columns[:-1])
+    
+    selected_features = st.multiselect("Select Features (Input)",features,default=features)
     target = st.selectbox("Select Target (What to predict)", df.columns, index=len(df.columns)-1)
     
 
