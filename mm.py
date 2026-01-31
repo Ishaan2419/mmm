@@ -99,6 +99,24 @@ if upload_file is not None:
         ax.set_ylabel("Density")
         st.pyplot(fig)
 
+    fig,ax=plt.subplots(figsize=(14,5))
+    df[num_cols].boxplot(ax=ax)
+    st.pyplot(fig)
+
+    fig,ax=plt.subplots(figsize=(14,5))
+    sns.heatmap(df[num_cols].corr(),annot=True,ax=ax)
+    st.pyplot(fig)
+
+    st.subheader("Encoding Categorical Variables")
+    df["addiction_risk_enc"] = df["addiction_risk"].map({"Low": 0, "Medium": 1, "High": 2})
+    
+    df["detox_needed_enc"] = df["detox_needed"].map({"No": 0, "Yes": 1})
+    
+    st.write(df[["addiction_risk", "addiction_risk_enc","detox_needed", "detox_needed_enc"]].head())
+    features = ["age","daily_screen_time","night_usage_minutes","notifications_count","phone_pickups","sleep_hours","dependency_score"]
+
+    features = st.multiselect("Select Features (Input)", df[features], default=df.columns[:-1])
+    target = st.selectbox("Select Target (What to predict)", df.columns, index=len(df.columns)-1)
     
 
 
