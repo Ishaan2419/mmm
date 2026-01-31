@@ -1,114 +1,115 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+import warnings
+warnings.filterwarnings("ignore")
 
-st.set_page_config(page_title="Employee Burnout Analytics", layout="wide")
+st.title("Machine Learning App")
+st.write("Upload the Dataset")
 
-st.title("🧠 Employee Workload & Burnout Risk Analytics")
 
-# Upload file
-file = st.file_uploader("Upload Employee Burnout CSV", type=["csv"])
+st.sidebar.header("Upload Dataset")
+upload_file=st.sidebar.file_uploader("Upload The CSV File",type="csv")
 
-if file is None:
-    st.info("Upload the CSV file to begin analysis.")
-    st.stop()
 
-df = pd.read_csv(file)
+if upload_file is not None:
+    df=pd.read_csv(upload_file)
+    st.subheader(" Data Preview")
+    st.write("File Uploaded successfully")
 
-# -------------------------------
-# DATA PREVIEW
-# -------------------------------
-st.subheader("📄 Data Preview")
-st.dataframe(df.head(20), use_container_width=True)
+    df.replace(["?","NA"],np.nan,inplace=True)
+    df["daily_screen_time"]=pd.to_numeric(df["daily_screen_time"],errors="coerce")
+    df["sleep_hours"] = pd.to_numeric(df["sleep_hours"], errors="coerce")
+    df["dependency_score"]=pd.to_numeric(df["dependency_score"],errors="coerce")
+    df["daily_screen_time"] = df["daily_screen_time"].fillna(df["daily_screen_time"].median())
+    df["sleep_hours"]=df["sleep_hours"].fillna(df["sleep_hours"].median())
+    df['mood_level']=df['mood_level'].fillna(df['mood_level'].mode()[0])
+    df["profession"]=df["profession"].fillna(df["profession"].mode()[0])
 
-# -------------------------------
-# EDA
-# -------------------------------
-st.subheader("📊 Exploratory Data Analysis")
+    df.loc[df["age_group"].isna() & (df['age'].between(10,19)),"age_group"]="Teen"
+    df.loc[df["age_group"].isna() & (df["age"].between(20,29)),"age_group"]="Young Adult"
+    df.loc[df["age_group"].isna() & (df["age"]>=30),"age_group"]="Adult"
 
-col1, col2 = st.columns(2)
+   
 
-with col1:
-    st.write("Burnout Distribution")
-    fig, ax = plt.subplots()
-    df["burnout_flag"].value_counts().plot(kind="bar", ax=ax)
+    st.subheader("Missing Values")
+    st.write(df.isna().sum())
+    
+    rows = st.slider("Select number of rows to display", 5, 50, 5)
+    st.subheader("Cleaned Data Preview")
+    st.dataframe(df.head(rows))
+
+    st.subheader("Analysis")
+
+
+    fig,ax=plt.subplots(1,2,figsize=(14,5))
+    sns.countplot(data=df,x="age_group",hue="addiction_risk",palette="inferno",ax=ax[0])
+    ax[0].set_title("Addiction risk by Age")
+
+    avg_sleep = df.groupby("addiction_risk")["sleep_hours"].mean()
+    avg_sleep.plot(kind="barh",color="#FF8C00",ax=ax[1])
+    ax[1].set_title("Addiction risk by sleeping hours")
+    
     st.pyplot(fig)
 
-with col2:
-    st.write("Stress Level Distribution")
-    fig, ax = plt.subplots()
-    df["self_reported_stress"].value_counts().plot(kind="bar", ax=ax)
-    st.pyplot(fig)
+    fig2,ax2=plt.subplots(1,2,figsize=(14,5))
+    dc=df["detox_needed"].value_counts()
+    ax2[0].pie(dc,labels=dc.index,autopct="%1.1f%%",startangle=90,colors=["red","orange"])
+    ax2[0].set_title("Distribution of Users by Detox Requirement")
 
-st.write("### Average Weekly Hours by Burnout Status")
-st.dataframe(df.groupby("burnout_flag")["weekly_hours"].mean())
+    df["night_usage_bin"]=pd.cut(df['night_usage_minutes'],bins=range(0,241,30))
+    avg_sleep=(df.groupby("night_usage_bin")["sleep_hours"].mean().reset_index())
+    avg_sleep = avg_sleep.sort_values("night_usage_bin")
+    ax2[1].plot(
+    avg_sleep["night_usage_bin"].astype(str),
+    avg_sleep["sleep_hours"],
+    marker="o"
+    )
+    ax2[1].set_title("Night Usage vs Sleep Hours")
+    ax2[1].set_xlabel("Night Usage Minutes")
+    ax2[1].set_ylabel("Average Sleep Hours")
+    st.pyplot(fig2)
 
-st.write("### Burnout Rate by Department")
-burnout_rate = df.groupby("department")["burnout_flag"].apply(
-    lambda x: (x == "Yes").mean()
-)
 
-fig, ax = plt.subplots()
-burnout_rate.plot(kind="bar", ax=ax)
-plt.xticks(rotation=45)
-st.pyplot(fig)
+    st.subheader("Average Screen Time by Age Group")
+    fig3, ax3 = plt.subplots(figsize=(7, 5))
+    avg_screen_time = df.groupby("age_group")["daily_screen_time"].mean()
+    avg_screen_time.plot(kind="bar",ax=ax3,color="#4C72B0")
+    ax3.set_ylabel("Average Screen Time (Hours)")
+    ax3.set_xlabel("Age Group")
+    ax3.set_title("Average Screen Time by Age Group")
+    st.pyplot(fig3)
 
-# -------------------------------
-# MACHINE LEARNING
-# -------------------------------
-st.subheader("🤖 Machine Learning – Burnout Prediction")
+    st.subheader("Distribution of Numerical Features (KDE)")
+    num_cols = ["daily_screen_time","night_usage_minutes","notifications_count","phone_pickups","sleep_hours","dependency_score"]
+    
+    for col in num_cols:
+        fig, ax = plt.subplots(figsize=(6, 3))
+        sns.kdeplot(data=df,x=col,fill=True,ax=ax)
+        ax.set_title(f"Distribution of {col}")
+        ax.set_xlabel(col)
+        ax.set_ylabel("Density")
+        st.pyplot(fig)
 
-ml_df = df.copy()
-ml_df["burnout_flag"] = ml_df["burnout_flag"].map({"No": 0, "Yes": 1})
-ml_df["weekend_work"] = ml_df["weekend_work"].map({"No": 0, "Yes": 1})
-ml_df["self_reported_stress"] = ml_df["self_reported_stress"].map(
-    {"Low": 0, "Medium": 1, "High": 2}
-)
+    
 
-features = [
-    "weekly_hours",
-    "overtime_hours",
-    "meetings_per_week",
-    "weekend_work",
-    "sick_leaves",
-    "self_reported_stress"
-]
 
-X = ml_df[features]
-y = ml_df["burnout_flag"]
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
+else:
+    st.info("Please upload a CSV file")
 
-model = LogisticRegression()
-model.fit(X_train, y_train)
 
-y_pred = model.predict(X_test)
 
-st.write("### 📋 Model Evaluation")
-st.text(classification_report(y_test, y_pred))
 
-# -------------------------------
-# PREDICTION PREVIEW
-# -------------------------------
-st.subheader("🔍 Sample Predictions")
 
-ml_df["prediction"] = model.predict(X)
-ml_df["prediction_label"] = ml_df["prediction"].map({0: "No Burnout", 1: "Burnout"})
-
-st.dataframe(
-    ml_df[
-        [
-            "emp_id",
-            "weekly_hours",
-            "overtime_hours",
-            "self_reported_stress",
-            "prediction_label"
-        ]
-    ].head(20),
-    use_container_width=True
-)
+    
+    
+    
