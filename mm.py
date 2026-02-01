@@ -15,16 +15,29 @@ warnings.filterwarnings("ignore")
 st.markdown(
     """
     <style>
+    /* Main background */
     .stApp {
-        background-color: #FFF3E0;
+        background-color: #FFF4DE;
     }
+
+    /* Header */
+    header[data-testid="stHeader"] {
+        background-color: #FFF4DE;
+    }
+
+    /* Sidebar */
     [data-testid="stSidebar"] {
         background-color: #0E1117;
+    }
+
+    [data-testid="stSidebar"] * {
+        color: #FFFFFF;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 
 
