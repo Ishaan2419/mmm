@@ -20,6 +20,10 @@ st.markdown(
         background-color: #0E1117;
     }
 
+     .stApp {
+        background-color: #FFF3E0;
+    }
+
     /* Sidebar text */
     [data-testid="stSidebar"] * {
         color: #FFFFFF !important;
