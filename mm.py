@@ -48,7 +48,7 @@ st.markdown(
 
     [data-testid="stFileUploader"] button {
         background-color: #FF8C00;
-        color:#FFF4DE !important;
+        color:#FFF3E0 !important;
         border-radius: 6px;
         font-weight: 600;
     }
