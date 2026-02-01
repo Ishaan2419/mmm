@@ -21,6 +21,7 @@ st.markdown(
     /* Main title (st.title) */
     h1 {
         font-family: 'Poppins', sans-serif;
+        font-size: 34px;
         font-weight: 500;
     }
 
