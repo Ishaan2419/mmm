@@ -54,14 +54,14 @@ st.markdown(
         color: #FFF3E0 !important;
     }
 
-    .h1{font-size:37px}
+    
     </style>
     """,
     unsafe_allow_html=True
 )
 
 
-st.<h1>("Behavior-Driven Addiction Risk Analysis")</h1>
+st.header("Behavior-Driven Addiction Risk Analysis")
 st.write("Upload the Dataset to perform EDA and Machine Learning")
 
 st.sidebar.header("Upload Dataset")
