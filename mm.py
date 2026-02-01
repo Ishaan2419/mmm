@@ -60,7 +60,7 @@ st.markdown(
 )
 
 
-st.header("Behavior-Driven Addiction Risk Prediction System")
+st.header("Behavior-Driven Addiction Risk Analysis")
 st.write("Upload the Dataset to perform EDA and Machine Learning")
 
 st.sidebar.header("Upload Dataset")
