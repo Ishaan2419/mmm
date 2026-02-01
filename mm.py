@@ -15,7 +15,13 @@ warnings.filterwarnings("ignore")
 st.markdown(
     """
     <style>
-
+    [data-testid="stFileUploader"] div,
+    [data-testid="stFileUploader"] span,
+    [data-testid="stFileUploader"] small,
+    [data-testid="stFileUploader"] label {
+        color: #FFF3E0 !important;
+        font-weight: 500;
+    }
      [data-testid="stFileUploader"] {
         background-color: #0E1117 !important;
         border: 2px dashed #FF8C00 !important;
