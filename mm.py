@@ -49,9 +49,7 @@ st.markdown(
         font-weight: 500;
     }
 
-   st.markdown(
-    """
-    <style>
+   
     /* Uploader title (above white box) */
     [data-testid="stFileUploader"] label {
         color: #FFF3E0 !important;
