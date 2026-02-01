@@ -21,7 +21,7 @@ st.markdown(
         background-color: #FFFFFF;
     }
     </style>
-    """,
+    ,
     unsafe_allow_html=True
 )
 
