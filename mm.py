@@ -21,7 +21,7 @@ st.markdown(
     /* Main title (st.title) */
     h1 {
         font-family: 'Poppins', sans-serif;
-        font-weight: 700;
+        font-weight: 500;
     }
 
     [data-testid="stFileUploader"] button {
