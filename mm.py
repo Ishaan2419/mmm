@@ -15,16 +15,6 @@ warnings.filterwarnings("ignore")
 st.markdown(
     """
     <style>
-
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
-    /* Main title (st.title) */
-    h1 {
-        font-family: 'Poppins', sans-serif;
-        font-size: 28px;
-        font-weight: 500;
-    }
-
     [data-testid="stFileUploader"] button {
         background-color: #FF8C00 !important;
         color: #0E1117 !important;
