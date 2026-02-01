@@ -15,28 +15,46 @@ warnings.filterwarnings("ignore")
 st.markdown(
     """
     <style>
-    /* Main background */
-    .stApp {
-        background-color: #FFF4DE;
-    }
-
-    /* Header */
-    header[data-testid="stHeader"] {
-        background-color: #FFF4DE;
-    }
-
-    /* Sidebar */
+    /* Sidebar background */
     [data-testid="stSidebar"] {
         background-color: #0E1117;
     }
 
+    /* Sidebar text */
     [data-testid="stSidebar"] * {
-        color: #FFFFFF;
+        color: #FFFFFF !important;
+    }
+
+    /* File uploader container */
+    [data-testid="stFileUploader"] {
+        background-color: #FFFFFF;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    /* File uploader text */
+    [data-testid="stFileUploader"] label {
+        color: #000000 !important;
+        font-weight: 600;
+    }
+
+    /* Drag & drop text */
+    [data-testid="stFileUploader"] small {
+        color: #000000 !important;
+    }
+
+    /* Browse files button */
+    [data-testid="stFileUploader"] button {
+        background-color: #FF8C00;
+        color: white !important;
+        border-radius: 6px;
+        font-weight: bold;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 
 
