@@ -15,44 +15,41 @@ warnings.filterwarnings("ignore")
 st.markdown(
     """
     <style>
+    /* Remove Streamlit default top padding */
+    .block-container {
+        padding-top: 0rem;
+    }
+
+    /* Main app background */
+    .stApp {
+        background-color: #FFF4DE;
+    }
+
+    /* Header bar (Share, icons) */
+    header[data-testid="stHeader"] {
+        background-color: #FFF4DE;
+        height: 0px;
+    }
+
+    /* Hide header completely (optional but recommended) */
+    header[data-testid="stHeader"] {
+        display: none;
+    }
+
     /* Sidebar background */
     [data-testid="stSidebar"] {
         background-color: #0E1117;
-    }
-
-     .stApp {
-        background-color: #FFF3E0;
     }
 
     /* Sidebar text */
     [data-testid="stSidebar"] * {
         color: #FFFFFF !important;
     }
-
-    /* File uploader container */
-    [data-testid="stFileUploader"] {
-        background-color: #FFFFFF;
-        padding: 16px;
-        border-radius: 12px;
-    }
-
-    /* ALL text inside uploader */
-    [data-testid="stFileUploader"] * {
-        color: #000000 !important;
-        font-weight: 500;
-    }
-
-    /* Browse files button */
-    [data-testid="stFileUploader"] button {
-        background-color: #FF8C00;
-        color: #FFFFFF !important;
-        border-radius: 6px;
-        font-weight: 600;
-    }
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 
 
