@@ -40,30 +40,6 @@ st.markdown( """ <style> /* Remove Streamlit default top padding */
 [data-testid="stFileUploader"] 
 button { background-color: #FF8C00; color:#FFF3E0 !important; border-radius: 6px; font-weight: 600; } 
 
-/* Uploader outer box */
-    [data-testid="stFileUploader"] {
-        background-color: #0E1117 !important;
-        border: 2px dashed #FF8C00 !important;
-        border-radius: 14px;
-        padding: 18px;
-    }
-
-    [data-testid="stFileUploader"] div,
-    [data-testid="stFileUploader"] span,
-    [data-testid="stFileUploader"] small,
-    [data-testid="stFileUploader"] label,
-    [data-testid="stFileUploader"] p {
-        color: #FFF3E0 !important;
-        font-weight: 500;
-    }
-
-    [data-testid="stFileUploader"] button {
-        background-color: #FF8C00 !important;
-        color: #0E1117 !important;
-        border-radius: 8px;
-        font-weight: 600;
-    }
-
 </style> """, unsafe_allow_html=True )
 
 
