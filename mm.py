@@ -49,14 +49,27 @@ st.markdown(
         font-weight: 500;
     }
 
-    /* Force uploader text to black */
-    [data-testid="stFileUploader"] div,
-    [data-testid="stFileUploader"] span,
-    [data-testid="stFileUploader"] small,
-    [data-testid="stFileUploader"] label,
-    [data-testid="stFileUploader"] p {
-        color: #000000 !important;
+   st.markdown(
+    """
+    <style>
+    /* Uploader title (above white box) */
+    [data-testid="stFileUploader"] label {
+        color: #FFF3E0 !important;
+        font-weight: 600;
     }
+
+    /* Text INSIDE the white uploader box */
+    [data-testid="stFileUploader"] div span,
+    [data-testid="stFileUploader"] div small,
+    [data-testid="stFileUploader"] div p {
+        color: #000000 !important;
+        font-weight: 500;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
     [data-testid="stFileUploader"] button {
         background-color: #FF8C00 !important;
