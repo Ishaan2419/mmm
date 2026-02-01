@@ -15,47 +15,38 @@ warnings.filterwarnings("ignore")
 st.markdown(
     """
     <style>
-    /* Remove Streamlit default top padding */
-    .block-container {
-        padding-top: 0rem;
+    /* ===== File uploader dark theme ===== */
+
+    /* Uploader outer box */
+    [data-testid="stFileUploader"] {
+        background-color: #0E1117 !important;
+        border: 2px dashed #FF8C00 !important;
+        border-radius: 14px;
+        padding: 18px;
     }
 
-    /* Main app background */
-    .stApp {
-        background-color: #FFF4DE;
-    }
-
-    /* Header bar (Share, icons) */
-    header[data-testid="stHeader"] {
-        background-color: #FFF4DE;
-        height: 0px;
-    }
-
-    /* Hide header completely (optional but recommended) */
-    header[data-testid="stHeader"] {
-        display: none;
-    }
-
-    /* Sidebar background */
-    [data-testid="stSidebar"] {
-        background-color:#0E1117 ;
-    }
-
-    /* Sidebar text */
-    [data-testid="stSidebar"] * {
+    /* Text inside uploader */
+    [data-testid="stFileUploader"] div,
+    [data-testid="stFileUploader"] span,
+    [data-testid="stFileUploader"] small,
+    [data-testid="stFileUploader"] label,
+    [data-testid="stFileUploader"] p {
         color: #FFF3E0 !important;
+        font-weight: 500;
     }
 
+    /* Browse files button */
     [data-testid="stFileUploader"] button {
-        background-color: #FF8C00;
-        color:#FFF3E0 !important;
-        border-radius: 6px;
+        background-color: #FF8C00 !important;
+        color: #0E1117 !important;
+        border-radius: 8px;
         font-weight: 600;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 
 
