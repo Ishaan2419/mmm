@@ -28,32 +28,28 @@ st.markdown(
     /* File uploader container */
     [data-testid="stFileUploader"] {
         background-color: #FFFFFF;
-        padding: 15px;
-        border-radius: 10px;
+        padding: 16px;
+        border-radius: 12px;
     }
 
-    /* File uploader text */
-    [data-testid="stFileUploader"] label {
+    /* ALL text inside uploader */
+    [data-testid="stFileUploader"] * {
         color: #000000 !important;
-        font-weight: 600;
-    }
-
-    /* Drag & drop text */
-    [data-testid="stFileUploader"] small {
-        color: #000000 !important;
+        font-weight: 500;
     }
 
     /* Browse files button */
     [data-testid="stFileUploader"] button {
         background-color: #FF8C00;
-        color: white !important;
+        color: #FFFFFF !important;
         border-radius: 6px;
-        font-weight: bold;
+        font-weight: 600;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 
 
