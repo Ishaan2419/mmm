@@ -15,11 +15,18 @@ warnings.filterwarnings("ignore")
 st.markdown(
     """
     <style>
+
+    [data-testid="stFileUploader"] button {
+        background-color: #FF8C00 !important;
+        color: #0E1117 !important;
+        border-radius: 8px;
+        font-weight: 600;
+    }
     [data-testid="stFileUploader"] div,
     [data-testid="stFileUploader"] span,
     [data-testid="stFileUploader"] small,
     [data-testid="stFileUploader"] label {
-        color: #FFF3E0 !important;
+        color: #0E1117 !important;
         font-weight: 500;
     }
      [data-testid="stFileUploader"] {
