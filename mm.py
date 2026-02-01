@@ -16,7 +16,7 @@ st.markdown(
     """
     <style>
     .stApp {
-        background-color: #0E1117;
+        background-color: #FFF3E0;
     }
     [data-testid="stSidebar"] {
         background-color: #FFFFFF;
