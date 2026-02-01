@@ -26,10 +26,7 @@ st.markdown( """ <style> /* Remove Streamlit default top padding */
 { background-color: #FFF4DE; height: 0px; } 
 
 
-[data-testid="stFileUploader"] p {
-        color: #FFF3E0 !important;
-        font-weight: 500;
-    }
+
     
 /* Hide header completely (optional but recommended) 
 
