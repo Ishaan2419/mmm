@@ -15,7 +15,13 @@ warnings.filterwarnings("ignore")
 st.markdown(
     """
     <style>
-    
+
+     [data-testid="stFileUploader"] {
+        background-color: #0E1117 !important;
+        border: 2px dashed #FF8C00 !important;
+        border-radius: 14px;
+        padding: 18px;
+    }
 
     /* Main app background */
     .stApp {
