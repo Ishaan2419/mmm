@@ -16,6 +16,14 @@ st.markdown(
     """
     <style>
 
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+
+    /* Main title (st.title) */
+    h1 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+    }
+
     [data-testid="stFileUploader"] button {
         background-color: #FF8C00 !important;
         color: #0E1117 !important;
