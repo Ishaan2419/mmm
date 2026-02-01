@@ -15,10 +15,7 @@ warnings.filterwarnings("ignore")
 st.markdown(
     """
     <style>
-    /* Remove extra top padding */
-    .block-container {
-        padding-top: 0.5rem;
-    }
+    
 
     /* Main app background */
     .stApp {
