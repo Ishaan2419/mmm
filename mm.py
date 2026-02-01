@@ -32,8 +32,6 @@ st.markdown(
     [data-testid="stSidebar"] * {
         color: #FFF3E0 !important;
     }
-
-    /* File uploader dark box */
     [data-testid="stFileUploader"] {
         background-color: #0E1117 !important;
         border: 2px dashed #FF8C00 !important;
@@ -49,14 +47,11 @@ st.markdown(
         font-weight: 500;
     }
 
-   
-    /* Uploader title (above white box) */
     [data-testid="stFileUploader"] label {
         color: #FFF3E0 !important;
         font-weight: 600;
     }
 
-    /* Text INSIDE the white uploader box */
     [data-testid="stFileUploader"] div span,
     [data-testid="stFileUploader"] div small,
     [data-testid="stFileUploader"] div p {
