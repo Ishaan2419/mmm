@@ -63,11 +63,6 @@ st.markdown(
         color: #000000 !important;
         font-weight: 500;
     }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 
     [data-testid="stFileUploader"] button {
         background-color: #FF8C00 !important;
