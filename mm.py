@@ -48,6 +48,15 @@ button { background-color: #FF8C00; color:#FFF3E0 !important; border-radius: 6px
         padding: 18px;
     }
 
+    [data-testid="stFileUploader"] div,
+    [data-testid="stFileUploader"] span,
+    [data-testid="stFileUploader"] small,
+    [data-testid="stFileUploader"] label,
+    [data-testid="stFileUploader"] p {
+        color: #FFF3E0 !important;
+        font-weight: 500;
+    }
+
     [data-testid="stFileUploader"] button {
         background-color: #FF8C00 !important;
         color: #0E1117 !important;
