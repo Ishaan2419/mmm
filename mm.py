@@ -12,6 +12,38 @@ from sklearn.ensemble import RandomForestClassifier
 import warnings
 warnings.filterwarnings("ignore")
 
+st.markdown(
+    """
+    <style>
+    /* Remove extra top padding */
+    .block-container {
+        padding-top: 0.5rem;
+    }
+
+    /* Main app background */
+    .stApp {
+        background-color: #FFF4DE;
+    }
+
+    /* Header visible (DO NOT HIDE) */
+    header[data-testid="stHeader"] {
+        background-color: #FFF4DE;
+    }
+
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #0E1117;
+    }
+
+    [data-testid="stSidebar"] * {
+        color: #FFF3E0 !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
 st.subheader("Digital Well-Being & App Addiction Analytics")
 st.write("Upload the Dataset to perform EDA and Machine Learning")
 
