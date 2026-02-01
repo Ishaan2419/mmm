@@ -12,39 +12,53 @@ from sklearn.ensemble import RandomForestClassifier
 import warnings
 warnings.filterwarnings("ignore")
 
-st.markdown( """ <style> /* Remove Streamlit default top padding */ 
-.block-container { padding-top: 0rem; } 
+st.markdown(
+    """
+    <style>
+    .block-container { padding-top: 0rem; }
 
-/* Main app background */ 
-.stApp { background-color: #FFF4DE; } 
+    .stApp {
+        background-color: #FFF4DE;
+    }
 
-/* Header bar 
-(Share, icons) 
+    header[data-testid="stHeader"] {
+        display: none;
+    }
 
-*/ header
-[data-testid="stHeader"] 
-{ background-color: #FFF4DE; height: 0px; } 
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #0E1117;
+    }
+    [data-testid="stSidebar"] * {
+        color: #FFF3E0 !important;
+    }
 
+    /* File uploader dark box */
+    [data-testid="stFileUploader"] {
+        background-color: #0E1117 !important;
+        border: 2px dashed #FF8C00 !important;
+        border-radius: 14px;
+        padding: 18px;
+    }
 
+    [data-testid="stFileUploader"] div,
+    [data-testid="stFileUploader"] span,
+    [data-testid="stFileUploader"] small,
+    [data-testid="stFileUploader"] label {
+        color: #FFF3E0 !important;
+        font-weight: 500;
+    }
 
-    
-/* Hide header completely (optional but recommended) 
-
-*/ header
-[data-testid="stHeader"] { display: none; } 
-
-/* Sidebar background */ 
-
-[data-testid="stSidebar"] { background-color:#0E1117 ; } 
-
-/* Sidebar text */ 
-
-[data-testid="stSidebar"] * { color: #FFF3E0 !important; }
-[data-testid="stFileUploader"] 
-button { background-color: #FF8C00; color:#FFF3E0 !important; border-radius: 6px; font-weight: 600; } 
-
-</style> """, unsafe_allow_html=True )
-
+    [data-testid="stFileUploader"] button {
+        background-color: #FF8C00 !important;
+        color: #0E1117 !important;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 
 
