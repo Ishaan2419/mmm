@@ -38,12 +38,12 @@ st.markdown(
 
     /* Sidebar background */
     [data-testid="stSidebar"] {
-        background-color:#FFF4DE ;
+        background-color:#0E1117 ;
     }
 
     /* Sidebar text */
     [data-testid="stSidebar"] * {
-        color: #0E1117 !important;
+        color: #FFF4DE !important;
     }
 
     [data-testid="stFileUploader"] button {
