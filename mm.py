@@ -45,6 +45,13 @@ st.markdown(
     [data-testid="stSidebar"] * {
         color: #FFFFFF !important;
     }
+
+    [data-testid="stFileUploader"] button {
+        background-color: #FF8C00;
+        color: #FFFFFF !important;
+        border-radius: 6px;
+        font-weight: 600;
+    }
     </style>
     """,
     unsafe_allow_html=True
