@@ -13,6 +13,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 st.markdown(
+    """
     <style>
     .stApp {
         background-color: #F5F7FA;
@@ -21,9 +22,10 @@ st.markdown(
         background-color: #FFFFFF;
     }
     </style>
-    ,
+    """,
     unsafe_allow_html=True
 )
+
 
 
 st.subheader("Digital Well-Being & App Addiction Analytics")
