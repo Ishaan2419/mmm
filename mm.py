@@ -49,6 +49,15 @@ st.markdown(
         font-weight: 500;
     }
 
+    /* Force uploader text to black */
+    [data-testid="stFileUploader"] div,
+    [data-testid="stFileUploader"] span,
+    [data-testid="stFileUploader"] small,
+    [data-testid="stFileUploader"] label,
+    [data-testid="stFileUploader"] p {
+        color: #000000 !important;
+    }
+
     [data-testid="stFileUploader"] button {
         background-color: #FF8C00 !important;
         color: #0E1117 !important;
